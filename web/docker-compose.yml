@@ -8,10 +8,24 @@ services:
       - POSTGRES_DB=garner_db
       - POSTGRES_USER=web
       - POSTGRES_PASSWORD=root
-    ports:
-      - "127.0.0.1:3333:3306"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - garner_network
+
+  web:
+    build: .
+    container_name: garner_web
+    command: python3 manage.py runserver 0.0.0.0:8000
+    env_file:
+      - .env
+    volumes:
+      - .:/src
+      - ~/.aws:/.aws
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
     networks:
       - garner_network
 

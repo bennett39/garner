@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y vim
 
-RUN mkdir -p /src /var/log/django /var/log/celery
+RUN mkdir -p /src /var/log/django
 WORKDIR /src
 
 # Add our dependencies
