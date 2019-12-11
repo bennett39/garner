@@ -1,0 +1,46 @@
+<h1>This works</h1>
+
+<div id="connect">
+  <form id="connect-form" method="POST" action="{% url 'transactions:connect' %}">
+    {% csrf_token %}
+  </form>
+  <button id="connect-button">Connect Account</button>
+</div>
+
+<div id="loading-message" style="display: none;">
+  <p>Redirecting...</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script type="text/javascript">
+  (function($) {
+    var loadingMessage = document.getElementById('loading-message');
+    var connectDiv = document.getElementById('connect');
+    var handler = Plaid.create({
+      clientName: 'Garner',
+      env: '{{ plaid_environment }}',
+      key: '{{ plaid_public_key }}',
+      product: ['transactions'],
+      onSuccess: function(public_token, metadata) {
+        var form = document.getElementById('connect-form');
+        var hiddenToken = document.createElement('input');
+        hiddenToken.setAttribute('type', 'hidden');
+        hiddenToken.setAttribute('name', 'public_token');
+        hiddenToken.setAttribute('value', public_token);
+        form.appendChild(hiddenToken);
+        form.submit();
+      },
+      onExit: function(err, metadata) {
+        loadingMessage.style.display = 'none';
+        connectDiv.style.display = 'block';
+      }
+    });
+
+    document.getElementById('connect-button').onclick = function() {
+      handler.open();
+      loadingMessage.style.display = 'block';
+      connectDiv.style.display = 'none';
+    };
+  })(jQuery);
+</script>
