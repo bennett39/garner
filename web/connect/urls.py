@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from .views import ConnectorView
 
-app_name = 'transactions'
+app_name = 'connect'
 urlpatterns = [
-    path('connect/', ConnectorView.as_view(), name='connect')
+    path('', ConnectorView.as_view(), name='connect')
 ]

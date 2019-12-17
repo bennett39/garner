@@ -1,7 +1,7 @@
 <h1>This works</h1>
 
 <div id="connect">
-  <form id="connect-form" method="POST" action="{% url 'transactions:connect' %}">
+  <form id="connect-form" method="POST" action="{% url 'connect:connect' %}">
     {% csrf_token %}
   </form>
   <button id="connect-button">Connect Account</button>

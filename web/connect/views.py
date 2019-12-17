@@ -20,7 +20,7 @@ client = plaid.Client(
 class ConnectorView(LoginRequiredMixin, View):
     def get(self, request):
         context = dict(plaid_environment=env.PLAID_ENVIRONMENT, plaid_public_key=env.PLAID_PUBLIC_KEY)
-        return render(request, 'transactions/connect.html', context)
+        return render(request, 'connect/connect.html', context)
 
     def post(self, request):
         public_token = request.POST.get('public_token')
@@ -32,7 +32,7 @@ class ConnectorView(LoginRequiredMixin, View):
         )
         item_access_token.save()
 
-        return redirect('transactions:connect')
+        return redirect('connect:connect')
 
     @staticmethod
     def get_access_token(public_token):
