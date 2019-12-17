@@ -1,8 +1,8 @@
 from django.urls import path, include
 
-from .views import ConnectorView
+from .views import ConnectView
 
 app_name = 'connect'
 urlpatterns = [
-    path('', ConnectorView.as_view(), name='connect')
+    path('', ConnectView.as_view(), name='connect')
 ]

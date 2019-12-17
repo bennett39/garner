@@ -1,23 +1,13 @@
-import plaid
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
 
 from garner import environment as env
+from lib.client import client
 from .models import ItemAccessToken
 
 
-client = plaid.Client(
-    client_id=env.PLAID_CLIENT_ID,
-    secret=env.PLAID_SECRET,
-    public_key=env.PLAID_PUBLIC_KEY,
-    environment=env.PLAID_ENVIRONMENT,
-    api_version='2018-05-22'
-)
-
-
-class ConnectorView(LoginRequiredMixin, View):
+class ConnectView(LoginRequiredMixin, View):
     def get(self, request):
         context = dict(plaid_environment=env.PLAID_ENVIRONMENT, plaid_public_key=env.PLAID_PUBLIC_KEY)
         return render(request, 'connect/connect.html', context)
